@@ -1,0 +1,14 @@
+﻿@model BookStore.Models.Order
+
+@{
+    ViewBag.Title = "PutOff";
+    string status = Model.Condition.Name;
+    string value = status.Equals("Оформлен") ? "Отложить" : "Оформить";
+}
+
+<div class="content">
+    <h2>Вы действительно хотите @value.ToLower() этот заказ?</h2>
+    @using (Html.BeginForm(new { id = Model.ID })) {
+        <input type="submit" value="@value"/>
+    }
+</div>

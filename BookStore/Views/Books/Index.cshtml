@@ -1,0 +1,30 @@
+﻿@model IEnumerable<BookStore.Models.Book>
+
+@{
+    ViewBag.Title = "Каталог книг";
+}
+
+<div class="content">
+    <h2>Каталог</h2>
+
+    <div class="search_box">
+        <div class="search_content">
+            @using (Ajax.BeginForm("Search", new AjaxOptions {
+                UpdateTargetId = "results",
+                LoadingElementId = "loading"
+            })) {
+                <label for="text">Название книги</label>
+                <input id="text" type="text" name="bookName" />
+                <input type="submit" value="Поиск" />
+            }
+        </div>
+    </div>
+
+    <div id="loading" class="loading">
+        <p>Идет загрузка...</p>
+    </div>
+
+    <div id="results">
+        @Html.Partial("_BookList", Model)
+    </div>
+</div>

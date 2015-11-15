@@ -1,0 +1,65 @@
+﻿@model BookStore.Models.Book
+
+@{
+    ViewBag.Title = "Добавление книги";
+}
+
+<div class="content">
+    <h2>Добавление книги</h2>
+
+    @using (Html.BeginForm()) {
+        @Html.ValidationSummary(true)
+
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Author)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Author)
+            @Html.ValidationMessageFor(model => model.Author)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Price)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Price)
+            @Html.ValidationMessageFor(model => model.Price)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Genre)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Genre)
+            @Html.ValidationMessageFor(model => model.Genre)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PagesCount)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PagesCount)
+            @Html.ValidationMessageFor(model => model.PagesCount)
+        </div>
+
+        <p>
+            <input type="submit" value="Добавить" />
+        </p>
+    }
+
+    <p>
+        @Html.ActionLink("Вернуться к каталогу", "Index")
+    </p>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

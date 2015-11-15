@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Разместить заказ";
+}
+
+<div class="content">
+    <h2>Разместить заказ</h2>
+
+    @using (Html.BeginForm()) {
+        @Html.ValidationSummary(true)
+        <fieldset>
+            <legend>Оформление заказа</legend>
+
+            <label for="address">Укажите адрес доставки</label>
+            <input id="address" name="address" type="text" />
+
+            <p>
+                <input type="submit" value="Create" />
+            </p>
+        </fieldset>
+    }
+
+    <p>
+        @Html.ActionLink("Вернуться", "Index")
+    </p>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

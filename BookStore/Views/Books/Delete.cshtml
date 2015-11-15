@@ -1,0 +1,53 @@
+﻿@model BookStore.Models.Book
+
+@{
+    ViewBag.Title = "Удалить книгу";
+}
+
+<div class="content">
+    <h2>Удалить книгу</h2>
+
+    <h3>Вы действительно хотите удалить эту книгу?</h3>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Author)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Author)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Price)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Price)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Genre)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Genre)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.PagesCount)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PagesCount)
+    </div>
+    @using (Html.BeginForm()) {
+        <p>
+            <input type="submit" value="Удалить" />
+        </p>
+    }
+    <p>
+        @Html.ActionLink("Вернуться к каталогу", "Index")
+    </p>
+</div>

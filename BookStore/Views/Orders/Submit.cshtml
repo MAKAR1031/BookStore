@@ -1,0 +1,11 @@
+﻿@model BookStore.Models.Order
+
+@{
+    ViewBag.Title = "Подтвердить заказ";
+}
+<div class="content">
+    <h2>Вы действительно хотите подтвердить заказ?</h2>
+    @using (Html.BeginForm(new { id = Model.ID })) {
+        <input type="submit" value="Подтвердить" />
+    }
+</div>

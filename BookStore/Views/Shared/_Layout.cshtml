@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title — BookStore</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <script type="text/javascript" src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+
+</head>
+<body>
+    <div class="header">
+        <div class="menu">
+            <div class="navigation_item">@Html.ActionLink("Каталог", "Index", "Books")</div>
+            <div class="navigation_item">@Html.ActionLink("Заказы", "Index", "Orders")</div>
+            <div class="navigation_item">@Html.ActionLink("Корзина", "Index", "Cart")</div>
+            <div class="navigation_item">@Html.ActionLink("Пользователи", "Index", "Users")</div>
+        </div>
+        @Html.Partial("_LoginPartial")
+    </div>
+    @RenderSection("featured", required: false)
+    @RenderBody()
+    <div id="message-box" class="message-box"></div>
+    @*@Scripts.Render("~/bundles/jquery")*@
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<BookStore.Models.Order>
+
+@{
+    ViewBag.Title = "Список заказов";
+}
+
+<div class="content">
+    <h2>Список заказов</h2>
+    <table class="data_table">
+        <tr>
+            <th>Дата размещения</th>
+            <th>Адрес доставки</th>
+            <th>Состояние</th>
+            <th>Действия</th>
+        </tr>
+        @foreach (var item in Model) {
+
+            if (User.IsInRole("OrdersManager") && (item.Condition.Name.Equals("Отложен") || item.Condition.Name.Equals("Подтвержден"))) {
+                continue;
+            }
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Condition.Name)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Подробнее", "Details", new { id = item.ID }) |
+                    @if (User.IsInRole("OrdersManager")) {
+                        @Html.ActionLink("Отменить", "Delete", new { id = item.ID }) 
+                        @Html.ActionLink("Подтвердить", "Submit", new { id = item.ID })
+                    } else if (User.IsInRole("Client")) {
+                        if (!item.Condition.Name.Equals("Оплачен")) {
+                            @Html.ActionLink("Отменить", "Delete", new { id = item.ID }) 
+                                if (item.Condition.Name.Equals("Подтвержден")) {
+                                    @Html.ActionLink("Оплатить", "Checkout", new { id = item.ID })
+                                } else {
+                                    @Html.ActionLink("Отложить/Оформить", "PutOff", new { id = item.ID })   
+                                }
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+    @if (User.IsInRole("Client")) {
+        <p>
+            @Html.ActionLink("Разместить заказ", "Create")
+        </p>
+    }
+</div>

@@ -1,0 +1,89 @@
+﻿body {
+    background-color: white;
+    padding: 0;
+    margin: 0;
+}
+
+.content {
+    text-align: center;
+    width: 80%;
+    height: 100%;
+    background-color: white;
+    margin: 15px auto;
+    box-shadow: 1px 1px 3px gray;
+}
+
+.search_box {
+    width: 80%;
+    margin: 10px auto;
+    overflow: auto;
+}
+
+.search_box.search_content {
+    float: right;
+}
+
+.loading {
+    display:none; 
+    color: lightblue;
+    font-weight:bold;
+}
+
+.data_table {
+    width: 70%;
+    margin-top: 10px;
+    margin-bottom: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+    font-size: 16pt;
+    box-shadow: 1px 1px 5px gray;
+}
+
+.data_table a {
+    text-decoration: none;
+    color: blue;
+}
+
+.data_table th{
+    background-color: lightblue;
+    border-bottom: 1px solid gray;
+}
+
+.data_table tr{
+    border-bottom: 1px solid lightgray;
+}
+
+.data_table tr:nth-child(2n) {
+    background-color: #DDD;
+}
+
+.header {
+    width: 100%;
+    background-color: lightblue;
+    overflow: auto;
+    box-shadow: 3px 3px 10px gray;
+}
+
+.menu {
+    float: left;
+}
+
+.login_partical {
+    float: right;
+}
+
+.navigation_item {
+    display: inline-block;
+    padding: 10px;
+    font-size: 25px;
+}
+
+.navigation_item a {
+    text-decoration: none;
+    color: black;
+}
+
+.login_partical form {
+    display: inline-block;
+}

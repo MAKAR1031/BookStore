@@ -1,0 +1,20 @@
+﻿@model BookStore.Models.Order
+
+@{
+    ViewBag.Title = "Оплатить заказ";
+    int price = 0;
+    Model.OrderItems.ToList().ForEach(item => price += item.Book.Price * item.Count);
+}
+
+<div class="content">
+    <h2>Checkout</h2>
+    <p>С вас @price руб.</p>
+    @using (Html.BeginForm("Checkout", "Orders", new { id = Model.ID })) {
+        <label for="card_number">Номер кредитной карточки</label>
+        <input id="card_number" type="text" />
+        <label for="cvv2/cvc2">cvv2/cvc2</label>
+        <input id="cvv2/cvc2" type="text" />
+        <br />
+        <input type="submit" value="Оплатить" />
+    }
+</div>

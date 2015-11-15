@@ -1,0 +1,28 @@
+﻿@model IEnumerable<BookStore.Models.Book>
+
+<table class="data_table">
+    <tr>
+        <th>Название</th>
+        <th>Действия</th>
+    </tr>
+    @foreach (var item in Model) {
+        <tr>
+            <td><a class="book_link" href="/Books/Details/@item.ID">@item.Name</a></td>
+            <td>
+                @if (User.IsInRole("BooksManager")) {
+                    <text>
+                    @Html.ActionLink("Редактровать", "Edit", new { id = item.ID }) | 
+                    @Html.ActionLink("Удалить", "Delete", new { id = item.ID })
+                    </text>
+                } else if (User.IsInRole("Client")) {
+                    @Ajax.ActionLink(" + В корзину", "AddToCart", "Cart", new { id = item.ID }, new AjaxOptions { UpdateTargetId = "message-box" })
+                }
+            </td>
+        </tr>
+    }
+</table>
+@if (User.IsInRole("BooksManager")) {
+    <p>
+        @Html.ActionLink("Добавить книгу", "Create")
+    </p>
+}
