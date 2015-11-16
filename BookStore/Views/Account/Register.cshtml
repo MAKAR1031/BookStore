@@ -2,18 +2,13 @@
 @{
     ViewBag.Title = "Регистрация";
 }
-
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
+<div class="content">
     <h2>Создание новой учетной записи.</h2>
-</hgroup>
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
 
-@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary()
-
-    <fieldset>
-        <legend>Форма регистрации</legend>
+        <h2>Форма регистрации</h2>
         <ol>
             <li>
                 @Html.LabelFor(m => m.UserName)
@@ -29,9 +24,9 @@
             </li>
         </ol>
         <input type="submit" value="Регистрация" />
-    </fieldset>
-}
+    }
 
+</div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
