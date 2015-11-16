@@ -9,12 +9,12 @@
         @Html.ValidationSummary(true)
         <fieldset>
             <legend>Оформление заказа</legend>
-
+            <p>С вас @ViewBag.cost рублей</p>
             <label for="address">Укажите адрес доставки</label>
             <input id="address" name="address" type="text" />
 
             <p>
-                <input type="submit" value="Create" />
+                <input type="submit" value="Оформить" />
             </p>
         </fieldset>
     }

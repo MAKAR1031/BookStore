@@ -45,6 +45,9 @@ namespace BookStore.Controllers {
             if (cart == null || cart.IsEmpty()) {
                 return View("EmptyCartError");
             }
+            int cost = 0;
+            cart.Content.Keys.ToList().ForEach(key => cost += db.Books.Find(key).Price * cart.Content[key]);
+            ViewBag.cost = cost;
             return View();
         }
 
