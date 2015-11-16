@@ -18,10 +18,13 @@ namespace BookStore.Controllers {
         [Authorize(Roles = "OrdersManager, Client")]
         public ActionResult Index() {
             int userID = WebSecurity.CurrentUserId;
+            List<Order> orders;
             if (User.IsInRole("OrdersManager")) {
-                return View(db.Orders.ToList());
+                orders = db.Orders.ToList();
+            } else {
+                orders = db.Orders.Where(order => order.ClientID == userID).ToList();
             }
-            return View(db.Orders.ToList().Where(order => order.ClientID == userID));
+            return View(orders);
         }
 
         [Authorize(Roles = "OrdersManager, Client")]

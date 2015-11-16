@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Cart";
+    List<BookStore.Models.Book> books = ViewBag.books;
     
 }
 
@@ -18,12 +19,12 @@
             </tr>
             @foreach (var item in Model.Content) {
                 <tr>
-                    <td>@item.Key</td>
+                    <td>@books.Find(book => book.ID == item.Key).Name</td>
                     <td>@item.Value</td>
                     <td>@Html.ActionLink("Удалить из корзины", "Remove", new { id = item.Key })</td>
                 </tr>
             }
         </table>
-        @Html.ActionLink("Очистить корзину", "Clear");
+        @Html.ActionLink("Очистить корзину", "Clear")
     }
 </div>

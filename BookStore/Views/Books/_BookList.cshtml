@@ -15,7 +15,7 @@
                     @Html.ActionLink("Удалить", "Delete", new { id = item.ID })
                     </text>
                 } else if (User.IsInRole("Client")) {
-                    @Ajax.ActionLink(" + В корзину", "AddToCart", "Cart", new { id = item.ID }, new AjaxOptions { UpdateTargetId = "message-box" })
+                    @Ajax.ActionLink(" + В корзину", "AddToCart", "Cart", new { id = item.ID }, new AjaxOptions { UpdateTargetId = "message_box" })
                 }
             </td>
         </tr>

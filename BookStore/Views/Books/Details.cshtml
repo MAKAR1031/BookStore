@@ -1,12 +1,10 @@
 ﻿@model BookStore.Models.Book
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Подробнее о книге";
 }
 
 <div class="content">
-    <h2>Details</h2>
-
     <div class="display-label">
         @Html.DisplayNameFor(model => model.Name)
     </div>
@@ -42,8 +40,9 @@
         @Html.DisplayFor(model => model.PagesCount)
     </div>
     <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
+        @Html.ActionLink("Редактировать", "Edit", new { id = Model.ID })
     </p>
-
+    <p>
+        @Html.ActionLink("Вернуться к каталогу", "Index")
+    </p>
 </div>

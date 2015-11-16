@@ -14,7 +14,11 @@ namespace BookStore.Controllers {
         private BookStoreContext db = new BookStoreContext();
         
         public ActionResult Index() {
-            return View(getCart());
+            Cart cart = getCart();
+            List<Book> books = new List<Book>();
+            cart.Content.Keys.ToList().ForEach(key => books.Add(db.Books.Find(key)));
+            ViewBag.books = books;
+            return View(cart);
         }
 
         public ActionResult AddToCart(int id = 0) {

@@ -42,7 +42,8 @@
 
 .data_table a {
     text-decoration: none;
-    color: blue;
+    color: black;
+    cursor: pointer;
 }
 
 .data_table th{
@@ -86,4 +87,10 @@
 
 .login_partical form {
     display: inline-block;
+}
+
+.message_box {
+	position: fixed;
+	bottom: 15px;
+	right: 15px;
 }
