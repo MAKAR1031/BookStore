@@ -1,31 +1,25 @@
-﻿using System;
+﻿using BookStore.Filters;
+using BookStore.Models;
+using DotNetOpenAuth.AspNet;
+using Microsoft.Web.WebPages.OAuth;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using DotNetOpenAuth.AspNet;
-using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
-using BookStore.Filters;
-using BookStore.Models;
 
 namespace BookStore.Controllers {
     [Authorize]
     [InitializeSimpleMembership]
     public class AccountController : Controller {
-        //
-        // GET: /Account/Login
 
         [AllowAnonymous]
         public ActionResult Login(string returnUrl) {
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
-
-        //
-        // POST: /Account/Login
 
         [HttpPost]
         [AllowAnonymous]
@@ -34,14 +28,9 @@ namespace BookStore.Controllers {
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe)) {
                 return RedirectToLocal(returnUrl);
             }
-
-            // Появление этого сообщения означает наличие ошибки; повторное отображение формы
             ModelState.AddModelError("", "Имя пользователя или пароль указаны неверно.");
             return View(model);
         }
-
-        //
-        // POST: /Account/LogOff
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -51,23 +40,16 @@ namespace BookStore.Controllers {
             return RedirectToAction("Index", "Books");
         }
 
-        //
-        // GET: /Account/Register
-
         [AllowAnonymous]
         public ActionResult Register() {
             return View();
         }
-
-        //
-        // POST: /Account/Register
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterModel model) {
             if (ModelState.IsValid) {
-                // Попытка зарегистрировать пользователя
                 try {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
                     WebSecurity.Login(model.UserName, model.Password);
@@ -77,13 +59,8 @@ namespace BookStore.Controllers {
                     ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
                 }
             }
-
-            // Появление этого сообщения означает наличие ошибки; повторное отображение формы
             return View(model);
         }
-
-        //
-        // POST: /Account/Disassociate
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -91,9 +68,7 @@ namespace BookStore.Controllers {
             string ownerAccount = OAuthWebSecurity.GetUserName(provider, providerUserId);
             ManageMessageId? message = null;
 
-            // Удалять связь учетной записи, только если текущий пользователь — ее владелец
             if (ownerAccount == User.Identity.Name) {
-                // Транзакция используется, чтобы помешать пользователю удалить учетные данные последнего входа
                 using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable })) {
                     bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
                     if (hasLocalAccount || OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name).Count > 1) {
@@ -107,9 +82,6 @@ namespace BookStore.Controllers {
             return RedirectToAction("Manage", new { Message = message });
         }
 
-        //
-        // GET: /Account/Manage
-
         public ActionResult Manage(ManageMessageId? message) {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Пароль изменен."
@@ -121,9 +93,6 @@ namespace BookStore.Controllers {
             return View();
         }
 
-        //
-        // POST: /Account/Manage
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Manage(LocalPasswordModel model) {
@@ -132,7 +101,6 @@ namespace BookStore.Controllers {
             ViewBag.ReturnUrl = Url.Action("Manage");
             if (hasLocalAccount) {
                 if (ModelState.IsValid) {
-                    // В ряде случаев при сбое ChangePassword породит исключение, а не вернет false.
                     bool changePasswordSucceeded;
                     try {
                         changePasswordSucceeded = WebSecurity.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
@@ -147,8 +115,6 @@ namespace BookStore.Controllers {
                     }
                 }
             } else {
-                // У пользователя нет локального пароля, уберите все ошибки проверки, вызванные отсутствующим
-                // полем OldPassword
                 ModelState state = ModelState["OldPassword"];
                 if (state != null) {
                     state.Errors.Clear();
@@ -164,12 +130,8 @@ namespace BookStore.Controllers {
                 }
             }
 
-            // Появление этого сообщения означает наличие ошибки; повторное отображение формы
             return View(model);
         }
-
-        //
-        // POST: /Account/ExternalLogin
 
         [HttpPost]
         [AllowAnonymous]
@@ -177,9 +139,6 @@ namespace BookStore.Controllers {
         public ActionResult ExternalLogin(string provider, string returnUrl) {
             return new ExternalLoginResult(provider, Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
         }
-
-        //
-        // GET: /Account/ExternalLoginCallback
 
         [AllowAnonymous]
         public ActionResult ExternalLoginCallback(string returnUrl) {
@@ -193,20 +152,15 @@ namespace BookStore.Controllers {
             }
 
             if (User.Identity.IsAuthenticated) {
-                // Если текущий пользователь вошел в систему, добавляется новая учетная запись
                 OAuthWebSecurity.CreateOrUpdateAccount(result.Provider, result.ProviderUserId, User.Identity.Name);
                 return RedirectToLocal(returnUrl);
             } else {
-                // Новый пользователь, запрашиваем желаемое имя участника
                 string loginData = OAuthWebSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
                 ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName;
                 ViewBag.ReturnUrl = returnUrl;
                 return View("ExternalLoginConfirmation", new RegisterExternalLoginModel { UserName = result.UserName, ExternalLoginData = loginData });
             }
         }
-
-        //
-        // POST: /Account/ExternalLoginConfirmation
 
         [HttpPost]
         [AllowAnonymous]
@@ -220,12 +174,9 @@ namespace BookStore.Controllers {
             }
 
             if (ModelState.IsValid) {
-                // Добавление нового пользователя в базу данных
                 using (UsersContext db = new UsersContext()) {
                     UserProfile user = db.UserProfiles.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
-                    // Проверка наличия пользователя в базе данных
                     if (user == null) {
-                        // Добавление имени в таблицу профиля
                         db.UserProfiles.Add(new UserProfile { UserName = model.UserName });
                         db.SaveChanges();
 
@@ -243,9 +194,6 @@ namespace BookStore.Controllers {
             ViewBag.ReturnUrl = returnUrl;
             return View(model);
         }
-
-        //
-        // GET: /Account/ExternalLoginFailure
 
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure() {
@@ -307,8 +255,6 @@ namespace BookStore.Controllers {
         }
 
         private static string ErrorCodeToString(MembershipCreateStatus createStatus) {
-            // Полный список кодов состояния см. по адресу http://go.microsoft.com/fwlink/?LinkID=177550
-            //.
             switch (createStatus) {
                 case MembershipCreateStatus.DuplicateUserName:
                     return "Имя пользователя уже существует. Введите другое имя пользователя.";

@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
+﻿using BookStore.Filters;
+using BookStore.Models;
 using System.Web.Mvc;
 using System.Web.Security;
-using BookStore.Models;
 using WebMatrix.WebData;
-using BookStore.Filters;
 
 namespace BookStore.Controllers {
     [Authorize(Roles="Administrator")]

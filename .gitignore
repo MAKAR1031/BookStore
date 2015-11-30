@@ -1,0 +1,17 @@
+BookStore.sln
+BookStore.v*.suo
+**.csproj*
+/packages/
+/TestResults/
+/BookStore/App_Data/
+/BookStore/Content/themes/
+/BookStore/bin/
+/BookStore/Images/
+/BookStore/obj/
+/BookStore/Scripts/
+/BookStore/packages.config
+/BookStore/favicon.ico
+/BookStore.Tests/obj/
+/BookStore.Tests/bin/
+/BookStore.Tests/App.config
+

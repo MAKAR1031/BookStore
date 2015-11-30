@@ -1,14 +1,11 @@
-﻿using System;
+﻿using BookStore.Filters;
+using BookStore.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
-using BookStore.Models;
 using WebMatrix.WebData;
-using BookStore.Filters;
 
 namespace BookStore.Controllers {
     [InitializeSimpleMembership]
@@ -95,7 +92,8 @@ namespace BookStore.Controllers {
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id) {
             Order order = db.Orders.Find(id);
-            db.Orders.Remove(order);
+            order.ConditionID = db.Conditions.Where(condition => condition.Name.Equals("Отменен")).FirstOrDefault().ID; ;
+            db.Entry(order).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

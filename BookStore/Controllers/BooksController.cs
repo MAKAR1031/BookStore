@@ -1,9 +1,8 @@
-﻿using System.Data;
+﻿using BookStore.Filters;
+using BookStore.Models;
+using System.Data;
 using System.Linq;
 using System.Web.Mvc;
-using BookStore.Models;
-using System.Web.Security;
-using BookStore.Filters;
 
 namespace BookStore.Controllers {
     [InitializeSimpleMembership]
